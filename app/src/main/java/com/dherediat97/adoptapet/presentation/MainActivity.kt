@@ -57,7 +57,9 @@ import com.dherediat97.adoptapet.presentation.mainscreen.FlipCard
 import com.dherediat97.adoptapet.presentation.mainscreen.PetCard
 import com.dherediat97.adoptapet.presentation.theme.AdoptAPetTheme
 
-val pumuki = Pet("Pumuki", 18, "Macho", R.drawable.pumuki)
+val colmillo = Pet("Colmillo", 24, "Macho", R.drawable.colmillo)
+val henry = Pet("Henry", 24, "Macho", R.drawable.henry)
+val mito = Pet("Mito", 12, "Hembra", R.drawable.mito)
 
 class MainActivity : ComponentActivity() {
 
@@ -113,10 +115,10 @@ class MainActivity : ComponentActivity() {
                                 petCard = cardRotation,
                                 onClick = { cardRotation = cardRotation.next },
                                 front = {
-                                    DraggableCard(isFront = true)
+                                    DraggableCard(isFront = true, henry)
                                 },
                                 back = {
-                                    DraggableCard(isFront = false)
+                                    DraggableCard(isFront = false, henry)
                                 }
                             )
                         }
@@ -130,7 +132,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DraggableCard(isFront: Boolean) {
+fun DraggableCard(isFront: Boolean, pet: Pet) {
     val dismissState = rememberSwipeToDismissBoxState()
     val acceptPet = remember { mutableStateOf(false) }
 
@@ -141,7 +143,7 @@ fun DraggableCard(isFront: Boolean) {
 
     if (isFront) {
         Image(
-            painter = painterResource(id = pumuki.picturePet),
+            painter = painterResource(id = pet.picturePet),
             contentDescription = "pet image front",
             alpha = 0.6f,
             modifier = Modifier.fillMaxSize(),
@@ -154,9 +156,9 @@ fun DraggableCard(isFront: Boolean) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     if (dismissState.targetValue == SwipeToDismissBoxValue.EndToStart)
-                        Text("${pumuki.name} ha sido elegido", color = Color.White)
+                        Text("${pet.name} ha sido elegido", color = Color.White)
                     if (dismissState.targetValue == SwipeToDismissBoxValue.StartToEnd)
-                        Text("${pumuki.name} ha sido descartado", color = Color.White)
+                        Text("${pet.name} ha sido descartado", color = Color.White)
 
                     if (dismissState.targetValue != SwipeToDismissBoxValue.Settled) {
                         Button(onClick = {
@@ -204,7 +206,7 @@ fun DraggableCard(isFront: Boolean) {
 
                             tint = Color.White,
                         )
-                        Text("Edad: ${pumuki.months} meses", color = Color.White)
+                        Text("Edad: ${pet.months} meses", color = Color.White)
                         Spacer(
                             modifier = Modifier
                                 .weight(1f)
@@ -215,12 +217,12 @@ fun DraggableCard(isFront: Boolean) {
                             tint = Color.White,
                             contentDescription = "sex pet icon"
                         )
-                        Text(pumuki.gender, color = Color.White)
+                        Text(pet.gender, color = Color.White)
                     }
 
                     //Name and desc pet info
                     Text(
-                        text = pumuki.name,
+                        text = pet.name,
                         style = TextStyle(
                             color = Color.White,
                             fontSize = 40.sp,
@@ -234,7 +236,7 @@ fun DraggableCard(isFront: Boolean) {
                         color = Color.White
                     )
                     Text(
-                        text = "Es la mascota que siempre quisistes tener, es super cariñoso y juguetón.\n\nFue abandonado hace unos meses y necesita un nuevo dueño urgentemente",
+                        text = "Es la mascota que siempre quisistes tener, es super cariñoso y juguetón.\n\nFue abandonado hace unos meses y necesita un nuevo dueño urgentemente.",
                         color = Color.White,
                         textAlign = TextAlign.Justify
                     )
@@ -243,7 +245,7 @@ fun DraggableCard(isFront: Boolean) {
         }
     } else {
         Image(
-            painter = painterResource(id = R.drawable.pumuki),
+            painter = painterResource(id = pet.picturePet),
             contentDescription = "pet image back",
             modifier = Modifier.fillMaxSize(),
             alpha = 0.4f,
