@@ -57,10 +57,19 @@ import com.dherediat97.adoptapet.presentation.mainscreen.FlipCard
 import com.dherediat97.adoptapet.presentation.mainscreen.PetCard
 import com.dherediat97.adoptapet.presentation.theme.AdoptAPetTheme
 
-val colmillo = Pet("Colmillo", 24, "Macho", R.drawable.colmillo)
-val henry = Pet("Henry", 24, "Macho", R.drawable.henry)
-val mito = Pet("Mito", 12, "Hembra", R.drawable.mito)
 
+
+
+val toby = Pet("Toby", 24, "Macho", R.drawable.toby)
+val loki = Pet("Loki", 24, "Hembra", R.drawable.loki)
+val laika = Pet("Laika", 12, "Hembra", R.drawable.laika)
+val milo = Pet("Milo", 12, "Macho", R.drawable.milo)
+val lara = Pet("Lara", 12, "Hembra", R.drawable.lara)
+val noa = Pet("Noa", 12, "Macho", R.drawable.noe)
+val motas = Pet("Motas", 12, "Macho", R.drawable.motas)
+val derek = Pet("Derek", 12, "Macho", R.drawable.derek)
+
+val pets = mutableListOf(toby, loki, laika, milo, lara, noa, motas, derek)
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -115,10 +124,10 @@ class MainActivity : ComponentActivity() {
                                 petCard = cardRotation,
                                 onClick = { cardRotation = cardRotation.next },
                                 front = {
-                                    DraggableCard(isFront = true, henry)
+                                    DraggableCard(isFront = true, loki)
                                 },
                                 back = {
-                                    DraggableCard(isFront = false, henry)
+                                    DraggableCard(isFront = false, loki)
                                 }
                             )
                         }
@@ -134,11 +143,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DraggableCard(isFront: Boolean, pet: Pet) {
     val dismissState = rememberSwipeToDismissBoxState()
-    val acceptPet = remember { mutableStateOf(false) }
-
-    LaunchedEffect(acceptPet.value) {
-        dismissState.reset()
-    }
 
 
     if (isFront) {
@@ -163,7 +167,6 @@ fun DraggableCard(isFront: Boolean, pet: Pet) {
                     if (dismissState.targetValue != SwipeToDismissBoxValue.Settled) {
                         Button(onClick = {
                             //Next Pet and save if accept
-                            acceptPet.value = true
                         }) {
                             Text("Aceptar", color = Color.White)
                         }
