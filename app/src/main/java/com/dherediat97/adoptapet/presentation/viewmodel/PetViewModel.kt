@@ -1,10 +1,12 @@
 package com.dherediat97.adoptapet.presentation.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dherediat97.adoptapet.data.Pet
 import com.dherediat97.adoptapet.presentation.repository.PetRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,42 +21,54 @@ class PetViewModel @Inject constructor(private val petRepository: PetRepository)
     val uiState: StateFlow<UiState>
         get() = _uiState
 
+    val petAdoptedNumber: MutableStateFlow<Int> = MutableStateFlow(0)
 
-    fun fetchNotAdopted() {
+    fun fetchAllPets() {
+        _uiState.update { it.copy(isLoading = true) }
+        val allPets = petRepository.fetchAllPets()
+        val adoptedPetList = petRepository.fetchAdoptedPets()
         _uiState.update {
             it.copy(
-                isLoading = true
+                petList = allPets,
+                isLoading = false
             )
         }
+        petAdoptedNumber.update { adoptedPetList.size }
+    }
 
-        viewModelScope.launch {
-            val notAdoptedPetList = petRepository.fetchNotAdoptedPets()
-            val adoptedPetList = petRepository.fetchNotAdoptedPets()
-            delay(200)
-            _uiState.update {
-                it.copy(
-                    petAdoptedNumber = adoptedPetList.size,
-                    notAdoptedList = notAdoptedPetList,
-                    isLoading = false
-                )
-            }
+    fun fetchAdoptedPets() {
+        viewModelScope.launch(Dispatchers.Main) {
+            val adoptedPetList = petRepository.fetchAdoptedPets()
+            delay(10)
+            petAdoptedNumber.update { adoptedPetList.size }
         }
     }
 
     fun cleanAllPets() {
-        petRepository.cleanAllPets()
-        _uiState.update { it.copy(petAdoptedNumber = 0, notAdoptedList = mutableListOf()) }
+        viewModelScope.launch(Dispatchers.IO) {
+            _uiState.update { it.copy(isLoading = true) }
+            petRepository.cleanAllPets()
+            val allPets = petRepository.fetchAllPets()
+            _uiState.update {
+                it.copy(
+                    petList = allPets,
+                    isLoading = false
+                )
+            }
+            petAdoptedNumber.update { 0 }
+        }
     }
 
-
-    suspend fun addPet(pet: Pet) {
-        petRepository.addPet(pet)
+    fun updatePet(pet: Pet) {
+        viewModelScope.launch(Dispatchers.IO) {
+            petRepository.adoptPet(pet.id)
+            val adoptedPetList = petRepository.fetchAdoptedPets()
+            petAdoptedNumber.update { adoptedPetList.size }
+        }
     }
-
 
     data class UiState(
-        val petAdoptedNumber: Int = 0,
-        val notAdoptedList: List<Pet> = mutableListOf(),
+        val petList: List<Pet> = mutableListOf(),
         val isLoading: Boolean = false
     )
 

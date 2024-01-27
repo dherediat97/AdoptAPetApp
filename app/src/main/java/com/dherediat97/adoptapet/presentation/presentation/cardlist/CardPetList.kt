@@ -54,14 +54,14 @@ fun CardPetList(petViewModel: PetViewModel = viewModel()) {
     var topCardIndex by remember { mutableIntStateOf(0) }
 
     LaunchedEffect(Unit) {
-        petViewModel.fetchNotAdopted()
+        petViewModel.fetchAllPets()
     }
 
     if (!data.isLoading) {
-        val petAdoptedList by remember { mutableStateOf(data.notAdoptedList) }
+        val petList by remember { mutableStateOf(data.petList) }
         val model = CardDeckModel(
             current = topCardIndex,
-            dataSource = petAdoptedList,
+            dataSource = petList,
             screenWidth = 1200,
             screenHeight = 1600
         )
@@ -97,10 +97,8 @@ fun CardPetList(petViewModel: PetViewModel = viewModel()) {
                             TOP_CARD_INDEX,
                             visibleIndex
                         ) { petIsAccepted ->
-                            coroutineScope.launch(Dispatchers.IO) {
                                 if (petIsAccepted)
-                                    petViewModel.addPet(pets[topCardIndex])
-                            }
+                                    petViewModel.updatePet(pets[topCardIndex])
                         }
                         .align(Alignment.TopCenter)
                         .zIndex(cardZIndex)

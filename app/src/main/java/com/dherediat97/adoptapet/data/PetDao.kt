@@ -10,13 +10,19 @@ import javax.inject.Singleton
 @Dao
 @Singleton
 interface PetDao {
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addPets(pets: List<Pet>)
+
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addPet(pet: Pet)
 
-    @Query("SELECT * FROM pets")
-    fun getAllPets(): MutableList<Pet>
+    @Query("SELECT * FROM pets where isAdopted=:isAdopted")
+    fun getAllPets(isAdopted: Boolean): MutableList<Pet>
 
-    @Query("DELETE FROM pets")
-    suspend fun deleteAllPets()
+    @Query("UPDATE pets SET isAdopted=:isAdopted WHERE id=:id")
+    fun updatePet(id: Int, isAdopted: Boolean)
+
+    @Query("UPDATE pets SET isAdopted=:isAdopted")
+    suspend fun deleteAllPets(isAdopted: Boolean=false)
 }

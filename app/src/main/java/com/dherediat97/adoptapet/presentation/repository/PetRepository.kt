@@ -12,17 +12,6 @@ class PetRepository @Inject constructor(private val petDAO: PetDao) {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
-    fun addPet(newPet: Pet) {
-        coroutineScope.launch(Dispatchers.IO) {
-            petDAO.addPet(newPet)
-        }
-    }
-
-    fun fetchNotAdoptedPets(): MutableList<Pet> {
-        val petList = pets.filter { !petDAO.getAllPets().contains(it) }.toMutableList()
-        return petList
-    }
-
     fun cleanAllPets() {
         coroutineScope.launch(Dispatchers.IO) {
             petDAO.deleteAllPets()
@@ -30,7 +19,23 @@ class PetRepository @Inject constructor(private val petDAO: PetDao) {
     }
 
     fun fetchAdoptedPets(): MutableList<Pet> {
-        return petDAO.getAllPets()
+        return petDAO.getAllPets(true)
+    }
+
+    fun fetchAllPets(): MutableList<Pet> {
+        return petDAO.getAllPets(false)
+    }
+
+    fun adoptPet(petId: Int) {
+        coroutineScope.launch(Dispatchers.IO) {
+            petDAO.updatePet(petId, true)
+        }
+    }
+
+    fun addAllPets() {
+        coroutineScope.launch(Dispatchers.IO) {
+            petDAO.addPets(pets)
+        }
     }
 
 }

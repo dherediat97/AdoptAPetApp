@@ -22,7 +22,7 @@ object AppModule {
         app,
         PetDatabase::class.java,
         "pets_database"
-    ).allowMainThreadQueries().build()
+    ).fallbackToDestructiveMigration().allowMainThreadQueries().build()
 
     @Singleton
     @Provides
