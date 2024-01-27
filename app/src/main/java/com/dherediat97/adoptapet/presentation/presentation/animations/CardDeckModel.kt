@@ -1,10 +1,10 @@
-package com.dherediat97.adoptapet.presentation.pets.presentation.animations
+package com.dherediat97.adoptapet.presentation.presentation.animations
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalDensity
 import com.dherediat97.adoptapet.data.Pet
-import com.dherediat97.adoptapet.presentation.cardHeight
-import com.dherediat97.adoptapet.presentation.cardWidth
+import com.dherediat97.adoptapet.presentation.constants.cardHeight
+import com.dherediat97.adoptapet.presentation.constants.cardWidth
 
 data class CardDeckModel(
     var current: Int,

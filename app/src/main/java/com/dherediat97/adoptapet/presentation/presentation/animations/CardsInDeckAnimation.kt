@@ -1,4 +1,4 @@
-package com.dherediat97.adoptapet.presentation.pets.presentation.animations
+package com.dherediat97.adoptapet.presentation.presentation.animations
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState

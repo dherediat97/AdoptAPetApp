@@ -1,20 +1,20 @@
-package com.dherediat97.adoptapet.presentation.pets.repository
+package com.dherediat97.adoptapet.presentation.repository
 
-import androidx.lifecycle.MutableLiveData
 import com.dherediat97.adoptapet.data.Pet
 import com.dherediat97.adoptapet.data.PetDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PetRepository(private val employeeDao: PetDao) {
+class PetRepository @Inject constructor(private val petDAO: PetDao) {
 
-    val allPets = MutableLiveData<List<Pet>>()
+    val allPets = petDAO.getAllPets()
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
-    fun addPet(newPet: Pet) {
+    suspend fun addPet(newPet: Pet) {
         coroutineScope.launch(Dispatchers.IO) {
-            employeeDao.addPet(newPet)
+            petDAO.addPet(newPet)
         }
     }
 

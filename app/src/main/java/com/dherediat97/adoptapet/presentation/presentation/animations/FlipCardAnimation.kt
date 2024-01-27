@@ -1,12 +1,12 @@
-package com.dherediat97.adoptapet.presentation.pets.presentation.animations
+package com.dherediat97.adoptapet.presentation.presentation.animations
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.*
-import com.dherediat97.adoptapet.presentation.animationTime
-import com.dherediat97.adoptapet.presentation.petcard.PetCard
+import com.dherediat97.adoptapet.presentation.presentation.PetCard
+import com.dherediat97.adoptapet.presentation.constants.animationTime
 
 data class FlipCardAnimation(
     val peepHandler: () -> Unit

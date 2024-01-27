@@ -1,4 +1,4 @@
-package com.dherediat97.adoptapet.presentation.pets.presentation.animations
+package com.dherediat97.adoptapet.presentation.presentation.animations
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.input.pointer.pointerInput
-import com.dherediat97.adoptapet.presentation.CardSwipeState
-import com.dherediat97.adoptapet.presentation.paddingOffset
+import com.dherediat97.adoptapet.presentation.constants.paddingOffset
+import com.dherediat97.adoptapet.presentation.presentation.CardSwipeState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

@@ -1,4 +1,4 @@
-package com.dherediat97.adoptapet.presentation.pets.presentation
+package com.dherediat97.adoptapet.presentation.presentation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,7 +8,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.dherediat97.adoptapet.presentation.pets.constants.cornerRadiusBig
+import com.dherediat97.adoptapet.presentation.constants.cornerRadiusBig
 
 @Composable
 fun CardView(

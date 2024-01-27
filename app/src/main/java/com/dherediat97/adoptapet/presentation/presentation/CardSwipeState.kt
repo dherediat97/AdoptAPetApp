@@ -1,4 +1,4 @@
-package com.dherediat97.adoptapet.presentation.pets.presentation
+package com.dherediat97.adoptapet.presentation.presentation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

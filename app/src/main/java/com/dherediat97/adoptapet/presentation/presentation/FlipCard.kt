@@ -1,4 +1,4 @@
-package com.dherediat97.adoptapet.presentation.petcard
+package com.dherediat97.adoptapet.presentation.presentation
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState

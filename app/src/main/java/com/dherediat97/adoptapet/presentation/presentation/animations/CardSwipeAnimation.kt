@@ -1,4 +1,4 @@
-package com.dherediat97.adoptapet.presentation.pets.presentation.animations
+package com.dherediat97.adoptapet.presentation.presentation.animations
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector2D
@@ -13,10 +13,9 @@ import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.consumePositionChange
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.unit.IntOffset
-import com.dherediat97.adoptapet.presentation.CardSwipeState
-import com.dherediat97.adoptapet.presentation.animationTime
-import com.dherediat97.adoptapet.presentation.paddingOffset
-import com.dherediat97.adoptapet.presentation.pets.presentation.CardSwipeState
+import com.dherediat97.adoptapet.presentation.constants.animationTime
+import com.dherediat97.adoptapet.presentation.constants.paddingOffset
+import com.dherediat97.adoptapet.presentation.presentation.CardSwipeState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -127,7 +126,7 @@ data class CardSwipeAnimation(
                 x = summed.x,
                 y = summed.y
             )
-            change.consumePositionChange()
+            if (change.positionChange() != Offset.Zero) change.consume()
             snapTo(coroutineScope, Offset(newValue.x, newValue.y))
             callBack()
         }

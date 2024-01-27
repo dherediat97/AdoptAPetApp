@@ -1,4 +1,4 @@
-package com.dherediat97.adoptapet.presentation.pets.presentation
+package com.dherediat97.adoptapet.presentation.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,8 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.dherediat97.adoptapet.data.Pet
-import com.dherediat97.adoptapet.presentation.petcard.FlipCard
-import com.dherediat97.adoptapet.presentation.petcard.PetCard
 
 @Composable
 fun CardsContent(pet: Pet) {

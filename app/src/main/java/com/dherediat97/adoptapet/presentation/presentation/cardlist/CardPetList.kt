@@ -1,4 +1,4 @@
-package com.dherediat97.adoptapet.presentation.pets.presentation
+package com.dherediat97.adoptapet.presentation.presentation.cardlist
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,20 +11,21 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.zIndex
-import com.dherediat97.adoptapet.presentation.cardHeight
-import com.dherediat97.adoptapet.presentation.cardWidth
-import com.dherediat97.adoptapet.presentation.pets
-import com.dherediat97.adoptapet.presentation.pets.presentation.animations.CardDeckEvents
-import com.dherediat97.adoptapet.presentation.pets.presentation.animations.CardDeckModel
+import com.dherediat97.adoptapet.presentation.constants.cardHeight
+import com.dherediat97.adoptapet.presentation.constants.cardWidth
+import com.dherediat97.adoptapet.presentation.constants.pets
+import com.dherediat97.adoptapet.presentation.presentation.CardView
+import com.dherediat97.adoptapet.presentation.presentation.CardsContent
+import com.dherediat97.adoptapet.presentation.presentation.animations.CardDeckEvents
+import com.dherediat97.adoptapet.presentation.presentation.animations.CardDeckModel
 
 
 private const val TOP_CARD_INDEX = 0
 private const val TOP_Z_INDEX = 100f
 
 @Composable
-fun CardPetDeck() {
+fun CardPetList() {
     var topCardIndex by remember { mutableIntStateOf(0) }
 
     val model = CardDeckModel(
