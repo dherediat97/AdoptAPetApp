@@ -15,8 +15,8 @@ interface PetDao {
     suspend fun addPet(pet: Pet)
 
     @Query("SELECT * FROM pets")
-    fun getAllPets(): List<Pet>
+    fun getAllPets(): MutableList<Pet>
 
-    @Delete
-    suspend fun deletePet(pet: Pet)
+    @Query("DELETE FROM pets")
+    suspend fun deleteAllPets()
 }

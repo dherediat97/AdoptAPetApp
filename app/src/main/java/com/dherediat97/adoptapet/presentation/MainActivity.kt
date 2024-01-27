@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
@@ -19,8 +21,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberBottomAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,11 +65,6 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun MainScreen(petViewModel: PetViewModel = viewModel()) {
-
-        LaunchedEffect(Unit) {
-            petViewModel.fetchPetsAdopted()
-        }
-
         Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
             Column(
                 modifier = Modifier
@@ -84,18 +86,23 @@ class MainActivity : ComponentActivity() {
                     )
 
                     IconButton(modifier = Modifier.weight(0.2f), onClick = { }) {
-                        val petsSaved = remember { petViewModel.petsAdopted }
-                        BadgedBox(
-                            badge = {
-                                Badge(
-                                    contentColor = Color.White,
-                                    containerColor = Color.Magenta
-                                ) { Text(petsSaved.toString()) }
-                            }) {
-                            Icon(
-                                painter = rememberVectorPainter(image = Icons.Filled.FavoriteBorder),
-                                contentDescription = "favorite pets icon"
-                            )
+                        val data by petViewModel.uiState.collectAsState()
+
+                        if (!data.isLoading) {
+                            val petAdoptedNumber by remember { mutableIntStateOf(data.petAdoptedNumber) }
+
+                            BadgedBox(
+                                badge = {
+                                    Badge(
+                                        contentColor = Color.White,
+                                        containerColor = Color.Magenta
+                                    ) { Text(petAdoptedNumber.toString()) }
+                                }) {
+                                Icon(
+                                    painter = rememberVectorPainter(image = Icons.Filled.FavoriteBorder),
+                                    contentDescription = "favorite pets icon"
+                                )
+                            }
                         }
                     }
                 }

@@ -1,6 +1,5 @@
 package com.dherediat97.adoptapet.presentation.presentation.animations
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.offset
 import androidx.compose.ui.Modifier
@@ -15,8 +14,6 @@ data class CardDeckEvents(
     val cardWidth: Float,
     val cardHeight: Float,
     val model: CardDeckModel,
-    val peepHandler: () -> Unit,
-    val playHandler: () -> Unit,
     val nextHandler: () -> Unit,
     val actionCallback: (String) -> Unit = {}
 ) {
@@ -25,14 +22,13 @@ data class CardDeckEvents(
         cardWidth = cardWidth,
         cardHeight = cardHeight
     )
-    val flipCard = FlipCardAnimation(peepHandler)
     val cardsInDeck = CardsInDeckAnimation(paddingOffset, model.count)
 
-    @SuppressLint("ModifierFactoryExtensionFunction")
     fun makeCardModifier(
         coroutineScope: CoroutineScope,
         topCardIndex: Int,
-        idx: Int
+        idx: Int,
+        acceptPet: (Boolean) -> Unit,
     ): Modifier {
         return if (idx > topCardIndex) {
             Modifier
@@ -40,7 +36,7 @@ data class CardDeckEvents(
                 .offset { cardsInDeck.offset(idx) }
         } else {
             Modifier
-                .scale(flipCard.scaleX(), flipCard.scaleY())
+                .scale(cardsInDeck.scaleX(idx), 1f)
                 .offset { cardSwipe.toIntOffset() }
                 .pointerInput(Unit) {
                     detectDragGestures(
@@ -48,11 +44,11 @@ data class CardDeckEvents(
                             cardSwipe.animateToTarget(
                                 coroutineScope,
                                 CardSwipeState.DRAGGING
-                            ) {
-                                if (it) {
+                            ) { isDraggedFinished ->
+                                if (isDraggedFinished) {
                                     nextHandler()
                                     coroutineScope.launch {
-                                        flipCard.backToInitState()
+                                        acceptPet(true)
                                     }
 
                                 }

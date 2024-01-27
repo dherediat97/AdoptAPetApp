@@ -8,7 +8,7 @@ import com.dherediat97.adoptapet.presentation.constants.cardWidth
 
 data class CardDeckModel(
     var current: Int,
-    val dataSource: MutableList<Pet>,
+    val dataSource: List<Pet>,
     val visible: Int = 3,
     val screenWidth: Int,
     val screenHeight: Int

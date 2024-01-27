@@ -1,6 +1,7 @@
 package com.dherediat97.adoptapet.presentation.presentation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
@@ -40,19 +42,18 @@ fun DraggableCard(isFront: Boolean, pet: Pet) {
         Image(
             painter = painterResource(id = pet.picturePet),
             contentDescription = "pet image front",
-            alpha = 0.6f,
+            alpha = 0.85f,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
 
         Box(modifier = Modifier.fillMaxSize()) {
-
             Column(modifier = Modifier.padding(24.dp)) {
                 //Name pet
                 Row(
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.Top,
-                    modifier = Modifier.fillMaxSize(0.90f)
+                    modifier = Modifier.fillMaxSize(0.95f)
                 ) {
                     Text(
                         text = pet.name,
