@@ -3,6 +3,7 @@ package com.dherediat97.adoptapet.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dherediat97.adoptapet.data.Pet
+import com.dherediat97.adoptapet.presentation.constants.pets
 import com.dherediat97.adoptapet.presentation.repository.PetRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -19,13 +20,17 @@ class PetViewModel @Inject constructor(private val petRepository: PetRepository)
     val petList: MutableStateFlow<List<Pet>> = MutableStateFlow(mutableListOf())
     val petAdoptedNumber: MutableStateFlow<Int> = MutableStateFlow(0)
 
+    init {
+        petRepository.addAllPets()
+    }
+
     fun fetchAllPets() {
         viewModelScope.launch(Dispatchers.IO) {
             val allPets = petRepository.fetchAllPets()
-            val adoptedPets = petRepository.fetchAdoptedPets()
+            delay(500)
             petList.update { allPets.first() }
-            petAdoptedNumber.update { adoptedPets.first().size }
-            delay(50)
+            petAdoptedNumber.update { 0 }
+            delay(500)
         }
     }
 
@@ -49,9 +54,9 @@ class PetViewModel @Inject constructor(private val petRepository: PetRepository)
     fun updatePet(pet: Pet, adoptPet: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             petRepository.adoptPet(pet.id, adoptPet)
-            delay(50)
             val adoptedPetList = petRepository.fetchAdoptedPets()
             petAdoptedNumber.update { adoptedPetList.first().size }
+            delay(1)
         }
     }
 
