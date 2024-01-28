@@ -1,3 +1,15 @@
 package com.dherediat97.adoptapet.data
 
-data class Pet(val name: String, val months: Int, val gender: String, val picturePet: Int)
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity("pets")
+data class Pet(
+    @PrimaryKey
+    val id: Int,
+    val name: String,
+    val age: String,
+    val gender: String,
+    val picturePet: Int,
+    val isAdopted: Boolean = false
+)

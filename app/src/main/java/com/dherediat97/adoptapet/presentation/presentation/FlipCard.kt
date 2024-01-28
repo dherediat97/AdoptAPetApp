@@ -1,4 +1,4 @@
-package com.dherediat97.adoptapet.presentation.mainscreen
+package com.dherediat97.adoptapet.presentation.presentation
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -11,13 +11,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 
 enum class PetCard(val angle: Float) {
-    Front(0f) {
+    FRONT_FACE(0f) {
         override val next: PetCard
-            get() = Back
+            get() = BACK_FACE
     },
-    Back(180f) {
+    BACK_FACE(180f) {
         override val next: PetCard
-            get() = Front
+            get() = FRONT_FACE
+    },
+    FLIP_FRONT(0f) {
+        override val next: PetCard
+        get() = FLIP_FRONT
+    },
+    FLIP_BACK(0f) {
+        override val next: PetCard
+            get() = FLIP_BACK
     };
 
     abstract val next: PetCard
