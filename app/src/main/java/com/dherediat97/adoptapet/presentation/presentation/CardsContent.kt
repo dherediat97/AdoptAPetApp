@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import com.dherediat97.adoptapet.data.Pet
 
 @Composable
-fun CardsContent(pet: Pet) {
+fun CardsContent(isPetAdopting: Int, pet: Pet) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -24,10 +24,14 @@ fun CardsContent(pet: Pet) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         var cardRotation by remember { mutableStateOf(PetCard.FRONT_FACE) }
-        FlipCard(petCard = cardRotation, onClick = { cardRotation = cardRotation.next }, back = {
-            DraggableCard(isFront = false, pet)
-        }, front = {
-            DraggableCard(isFront = true, pet)
-        })
+        FlipCard(
+            petCard = cardRotation,
+            onClick = { cardRotation = cardRotation.next },
+            back = {
+                DraggableCard(isFront = false, pet, isPetAdopting)
+            },
+            front = {
+                DraggableCard(isFront = true, pet, isPetAdopting)
+            })
     }
 }

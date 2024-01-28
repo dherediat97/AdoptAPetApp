@@ -1,9 +1,16 @@
 package com.dherediat97.adoptapet.presentation.presentation.animations
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.offset
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import com.dherediat97.adoptapet.presentation.constants.paddingOffset
 import com.dherediat97.adoptapet.presentation.presentation.CardSwipeState
@@ -29,7 +36,10 @@ data class CardDeckEvents(
         topCardIndex: Int,
         idx: Int,
         acceptPet: (Boolean) -> Unit,
+        onDrag: (Int) -> Unit
     ): Modifier {
+        val isPetAdopted = mutableStateOf(false)
+
         return if (idx > topCardIndex) {
             Modifier
                 .scale(cardsInDeck.scaleX(idx), 1f)
@@ -46,18 +56,29 @@ data class CardDeckEvents(
                                 CardSwipeState.DRAGGING
                             ) { isDraggedFinished ->
                                 if (isDraggedFinished) {
-                                    nextHandler()
                                     coroutineScope.launch {
-                                        acceptPet(true)
+                                        acceptPet(isPetAdopted.value)
+                                        onDrag(-1)
                                     }
-
+                                    nextHandler()
                                 }
                                 cardsInDeck.backToInitState()
                             }
                         },
-                        onDrag = { change, _ ->
+                        onDrag = { change, amount ->
+                            val (x, _) = amount
+                            when {
+                                x > 0 -> {
+                                    isPetAdopted.value = true
+                                }
+
+                                x < 0 -> {
+                                    isPetAdopted.value = false
+                                }
+                            }
                             cardSwipe.draggingCard(coroutineScope, change) {
                                 cardsInDeck.pushBackToTheFront()
+                                onDrag(x.toInt())
                             }
                         }
                     )

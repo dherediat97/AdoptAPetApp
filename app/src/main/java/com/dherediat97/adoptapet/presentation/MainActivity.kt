@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -58,7 +59,7 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun MainScreen(petViewModel: PetViewModel = viewModel()) {
-        val petAdoptedNumber = petViewModel.petAdoptedNumber.collectAsState()
+        val petAdoptedNumber by petViewModel.petAdoptedNumber.collectAsState()
         LaunchedEffect(Unit) {
             petViewModel.fetchAdoptedPets()
         }
@@ -88,7 +89,7 @@ class MainActivity : ComponentActivity() {
                                 Badge(
                                     contentColor = Color.White,
                                     containerColor = Color.Magenta
-                                ) { Text(petAdoptedNumber.value.toString()) }
+                                ) { Text(petAdoptedNumber.toString()) }
                             }) {
                             Icon(
                                 painter = rememberVectorPainter(image = Icons.Filled.FavoriteBorder),

@@ -5,6 +5,8 @@ import com.dherediat97.adoptapet.data.PetDao
 import com.dherediat97.adoptapet.presentation.constants.pets
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,17 +20,17 @@ class PetRepository @Inject constructor(private val petDAO: PetDao) {
         }
     }
 
-    fun fetchAdoptedPets(): MutableList<Pet> {
+    fun fetchAdoptedPets(): Flow<List<Pet>> {
         return petDAO.getAllPets(true)
     }
 
-    fun fetchAllPets(): MutableList<Pet> {
+    fun fetchAllPets(): Flow<List<Pet>> {
         return petDAO.getAllPets(false)
     }
 
-    fun adoptPet(petId: Int) {
+    fun adoptPet(petId: Int, petAdopted: Boolean) {
         coroutineScope.launch(Dispatchers.IO) {
-            petDAO.updatePet(petId, true)
+            petDAO.updatePet(petId, petAdopted)
         }
     }
 

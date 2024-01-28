@@ -19,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
@@ -37,90 +36,121 @@ enum class CardSwipeState {
 }
 
 @Composable
-fun DraggableCard(isFront: Boolean, pet: Pet) {
-    if (isFront) {
-        Image(
-            painter = painterResource(id = pet.picturePet),
-            contentDescription = "pet image front",
-            alpha = 0.85f,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
-
-        Box(modifier = Modifier.fillMaxSize()) {
-            Column(modifier = Modifier.padding(24.dp)) {
-                //Name pet
-                Row(
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.Top,
-                    modifier = Modifier.fillMaxSize(0.95f)
-                ) {
-                    Text(
-                        text = pet.name,
-                        style = TextStyle(
-                            color = Color.White,
-                            fontSize = 80.sp,
-                            fontWeight = FontWeight.Bold
-                        ),
-                        textAlign = TextAlign.Center,
-                    )
-                    Spacer(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxWidth()
-                    )
-                }
-                //Basic Pet Info
-                Row(
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.Bottom,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Icon(
-                        painter = rememberVectorPainter(image = Icons.Filled.DateRange),
-                        contentDescription = "age pet icon",
-                        tint = Color.White,
-                    )
-                    Text("Edad: ${pet.age}", color = Color.White)
-                    Spacer(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxWidth()
-                    )
-                    Icon(
-                        painter =
-                        if (pet.gender.lowercase(Locale.ROOT) == "macho") rememberVectorPainter(
-                            image = Icons.Filled.Male
-                        )
-                        else rememberVectorPainter(
-                            image = Icons.Filled.Female
-                        ),
-                        tint = Color.White,
-                        contentDescription = "sex pet icon"
-                    )
-                    Text(pet.gender, color = Color.White)
-                }
-
-            }
-        }
-    } else {
-        Image(
-            painter = painterResource(id = pet.picturePet),
-            contentDescription = "pet image back",
-            modifier = Modifier.fillMaxSize(),
-            alpha = 0.4f,
-            contentScale = ContentScale.Crop
-        )
+fun DraggableCard(isFront: Boolean, pet: Pet, isPetAdopting: Int) {
+    if (isPetAdopting != -1) {
         Row(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .background(
+                    when (isPetAdopting) {
+                        0 -> Color.Magenta
+                        1 -> Color.Red
+                        else -> {
+                            Color.Transparent
+                        }
+                    }
+                ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Más detalles",
+                text =
+                when (isPetAdopting) {
+                    0 -> "Has elegido adoptar a ${pet.name}"
+                    1 -> "Has elegido descartar a ${pet.name}"
+                    else -> {
+                        ""
+                    }
+                },
                 color = Color.White
             )
+        }
+    } else {
+
+        if (isFront) {
+            Image(
+                painter = painterResource(id = pet.picturePet),
+                contentDescription = "pet image front",
+                alpha = 0.85f,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            )
+
+            Box(modifier = Modifier.fillMaxSize()) {
+                Column(modifier = Modifier.padding(24.dp)) {
+                    //Name pet
+                    Row(
+                        horizontalArrangement = Arrangement.Start,
+                        verticalAlignment = Alignment.Top,
+                        modifier = Modifier.fillMaxSize(0.95f)
+                    ) {
+                        Text(
+                            text = pet.name,
+                            style = TextStyle(
+                                color = Color.White,
+                                fontSize = 80.sp,
+                                fontWeight = FontWeight.Bold
+                            ),
+                            textAlign = TextAlign.Center,
+                        )
+                        Spacer(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxWidth()
+                        )
+                    }
+                    //Basic Pet Info
+                    Row(
+                        horizontalArrangement = Arrangement.Start,
+                        verticalAlignment = Alignment.Bottom,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Icon(
+                            painter = rememberVectorPainter(image = Icons.Filled.DateRange),
+                            contentDescription = "age pet icon",
+                            tint = Color.White,
+                        )
+                        Text("Edad: ${pet.age}", color = Color.White)
+                        Spacer(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxWidth()
+                        )
+                        Icon(
+                            painter =
+                            if (pet.gender.lowercase(Locale.ROOT) == "macho") rememberVectorPainter(
+                                image = Icons.Filled.Male
+                            )
+                            else rememberVectorPainter(
+                                image = Icons.Filled.Female
+                            ),
+                            tint = Color.White,
+                            contentDescription = "sex pet icon"
+                        )
+                        Text(pet.gender, color = Color.White)
+                    }
+
+                }
+            }
+        } else {
+            Image(
+                painter = painterResource(id = pet.picturePet),
+                contentDescription = "pet image back",
+                modifier = Modifier.fillMaxSize(),
+                alpha = 0.4f,
+                contentScale = ContentScale.Crop
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "Más detalles",
+                    color = Color.White
+                )
+            }
         }
     }
 }
